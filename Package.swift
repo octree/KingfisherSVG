@@ -6,7 +6,9 @@ import PackageDescription
 let package = Package(
     name: "KingfisherSVG",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v13),
+        .watchOS(.v6),
+        .tvOS(.v13)
     ],
     products: [
         .library(
@@ -15,7 +17,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/onevcat/Kingfisher", .upToNextMajor(from: "7.0.0"))
+        .package(url: "https://github.com/onevcat/Kingfisher", .upToNextMajor(from: "7.8.1"))
     ],
     targets: [
         .target(

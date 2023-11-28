@@ -39,7 +39,7 @@ public struct SVGProcessor: ImageProcessor {
             return image
         case let .data(data):
             if SVGCoder.shared.canDecode(data: data) {
-                return SVGCoder.shared.createVectorSVG(data: data)
+                return SVGCoder.shared.decode(data: data)
             } else {
                 return DefaultImageProcessor.default.process(item: item, options: options)
             }

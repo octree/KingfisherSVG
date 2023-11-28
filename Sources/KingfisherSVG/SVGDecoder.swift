@@ -61,7 +61,7 @@ public class SVGCoder {
         createImage = NSSelectorFromString(base64DecodedString(from: "X2ltYWdlV2l0aENHU1ZHRG9jdW1lbnQ6"))
     }
 
-    public func createVectorSVG(data: Data) -> KFCrossPlatformImage? {
+    public func decode(data: Data) -> KFCrossPlatformImage? {
         guard let pointer = createDocument(data as CFData, nil) else { return nil }
         let document = Unmanaged<NSObject>.fromOpaque(pointer).takeUnretainedValue()
         let image = UIImage.perform(createImage, with: document).takeUnretainedValue() as? UIImage
