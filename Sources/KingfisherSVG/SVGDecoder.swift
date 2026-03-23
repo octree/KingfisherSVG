@@ -40,7 +40,7 @@ private extension UnsafeMutableRawPointer {
     }
 }
 
-public class SVGCoder {
+public final class SVGCoder: Sendable {
     public static let shared: SVGCoder = .init()
     private let release: @convention(c) (UnsafeMutableRawPointer) -> Void
     private let createDocument: @convention(c) (CFData, CFDictionary?) -> UnsafeMutableRawPointer?
