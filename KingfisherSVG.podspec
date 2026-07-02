@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'KingfisherSVG'
-  s.version          = '2.0.1'
+  s.version          = '2.2.0'
   s.swift_version    = '5.9'
   s.summary          = 'A Kingfisher extension helping you process svg format'
 
@@ -15,6 +15,7 @@ KingfisherWebP is an extension of the [Kingfisher](https://github.com/onevcat/Ki
   s.social_media_url = 'https://twitter.com/_octree'
 
   s.ios.deployment_target = "13.0"
+  s.osx.deployment_target = "10.15"
   s.watchos.deployment_target = "6.0"
   s.tvos.deployment_target = "13.0"
   s.source_files = 'Sources/**/*.{swift}'

@@ -26,7 +26,12 @@
 
 import CoreGraphics
 import Kingfisher
+
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
 
 @inline(__always)
 private func base64DecodedString(from text: String) -> String {
@@ -42,11 +47,17 @@ private extension UnsafeMutableRawPointer {
 
 public final class SVGCoder: Sendable {
     public static let shared: SVGCoder = .init()
+
+#if !os(macOS)
     private let release: @convention(c) (UnsafeMutableRawPointer) -> Void
     private let createDocument: @convention(c) (CFData, CFDictionary?) -> UnsafeMutableRawPointer?
     private let createImage: Selector
+#endif
+
     private let svgTag = "</svg>".data(using: .utf8)!
+
     private init() {
+#if !os(macOS)
         var name = base64DecodedString(from: "Q0dTVkdEb2N1bWVudFJldGFpbg==")
         name = base64DecodedString(from: "Q0dTVkdEb2N1bWVudFJlbGVhc2U=")
         release = name.withCString {
@@ -59,14 +70,19 @@ public final class SVGCoder: Sendable {
         }!.convert(to: (@convention(c) (CFData, CFDictionary?) -> UnsafeMutableRawPointer?).self)
 
         createImage = NSSelectorFromString(base64DecodedString(from: "X2ltYWdlV2l0aENHU1ZHRG9jdW1lbnQ6"))
+#endif
     }
 
     public func decode(data: Data) -> KFCrossPlatformImage? {
+#if os(macOS)
+        return NSImage(data: data)
+#else
         guard let pointer = createDocument(data as CFData, nil) else { return nil }
         let document = Unmanaged<NSObject>.fromOpaque(pointer).takeUnretainedValue()
         let image = UIImage.perform(createImage, with: document).takeUnretainedValue() as? UIImage
         release(pointer)
         return image
+#endif
     }
 
     public func canDecode(data: Data) -> Bool {
